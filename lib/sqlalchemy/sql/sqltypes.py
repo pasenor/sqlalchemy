@@ -808,6 +808,10 @@ class DateTime(_LookupExpressionAdapter, TypeEngine):
             operators.sub: {Interval: self.__class__, DateTime: Interval},
         }
 
+    def _cached_literal_processor(self, dialect):
+        """Return a dialect-specific literal processor for this type."""
+        return lambda d: "'{}'".format(d.isoformat())
+
 
 class Date(_LookupExpressionAdapter, TypeEngine):
 
@@ -846,6 +850,10 @@ class Date(_LookupExpressionAdapter, TypeEngine):
             },
         }
 
+    def _cached_literal_processor(self, dialect):
+        """Return a dialect-specific literal processor for this type."""
+        return lambda d: "'{}'".format(d.isoformat())
+
 
 class Time(_LookupExpressionAdapter, TypeEngine):
 
@@ -872,6 +880,10 @@ class Time(_LookupExpressionAdapter, TypeEngine):
             operators.add: {Date: DateTime, Interval: self.__class__},
             operators.sub: {Time: Interval, Interval: self.__class__},
         }
+
+    def _cached_literal_processor(self, dialect):
+        """Return a dialect-specific literal processor for this type."""
+        return lambda d: "'{}'".format(d.isoformat())
 
 
 class _Binary(TypeEngine):
